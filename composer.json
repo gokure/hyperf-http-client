@@ -1,0 +1,40 @@
+{
+    "name": "gokure/http-client",
+    "description": "An expressive, minimal API around the Guzzle HTTP client for Hyperf.",
+    "keywords": ["hyperf", "http", "http-client", "guzzle"],
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Gang Wu",
+            "email": "gokure@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">= 7.2",
+        "ext-swoole": ">= 4.4",
+        "hyperf/framework": "^1.0|^2.0",
+        "hyperf/guzzle": "^1.0|^2.0"
+    },
+    "require-dev": {
+        "hyperf/testing": "^1.0|^2.0",
+        "roave/security-advisories": "dev-master",
+        "swoole/ide-helper": "^4.5",
+        "symfony/var-dumper": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gokure\\Http\\Client\\": "src/"
+        }
+    },
+    "extra": {
+        "hyperf": {
+            "config": "Gokure\\Http\\Client\\ConfigProvider"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

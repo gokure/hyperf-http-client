@@ -6,7 +6,7 @@ Implements HTTP client for Hyperf via [laravel/framework](https://github.com/lar
 
 HTTP Client is an expressive, minimal API around the [Guzzle HTTP client](http://docs.guzzlephp.org/en/stable/) that implements from Laravel, allowing you to quickly make outgoing HTTP requests to communicate with other web applications.
 
-Before getting started, you should ensure that you have installed the Guzzle package as a dependency of your application. By default, Laravel automatically includes this dependency. However, if you have previously removed the package, you may install it again via Composer:
+Before getting started, you should ensure that you have installed the Guzzle package as a dependency of your application. By default, Hyperf automatically includes this dependency. However, if you have previously removed the package, you may install it again via Composer:
 
 ```sh
 composer require guzzlehttp/guzzle
@@ -170,7 +170,7 @@ If the given timeout is exceeded, an instance of `Gokure\Http\Client\ConnectionE
 
 ### Retries
 
-If you would like HTTP client to automatically retry the request if a client or server error occurs, you may use the `retry` method. The `retry` method accepts two arguments: the maximum number of times the request should be attempted and the number of milliseconds that Laravel should wait in between attempts:
+If you would like HTTP client to automatically retry the request if a client or server error occurs, you may use the `retry` method. The `retry` method accepts two arguments: the maximum number of times the request should be attempted, and the number of milliseconds that Hyperf should wait in between attempts:
 
 ```php
 $response = Http::retry(3, 100)->post(...);
@@ -180,7 +180,7 @@ If all of the requests fail, an instance of `Gokure\Http\Client\RequestException
 
 ### Error Handling
 
-Unlike Guzzle's default behavior, Laravel's HTTP client wrapper does not throw exceptions on client or server errors (`400` and `500` level responses from servers). You may determine if one of these errors was returned using the `successful`, `clientError`, or `serverError` methods:
+Unlike Guzzle's default behavior, Hyperf's HTTP client wrapper does not throw exceptions on client or server errors (`400` and `500` level responses from servers). You may determine if one of these errors was returned using the `successful`, `clientError`, or `serverError` methods:
 
 ```php
 // Determine if the status code is >= 200 and < 300...
@@ -273,7 +273,7 @@ return $responses['first']->ok();
 
 ## Testing
 
-Many Laravel services provide functionality to help you easily and expressively write tests, and Laravel's HTTP wrapper is no exception. The `Http` facade's `fake` method allows you to instruct the HTTP client to return stubbed / dummy responses when requests are made.
+Many Hyperf services provide functionality to help you easily and expressively write tests, and Hyperf's HTTP wrapper is no exception. The `Http` facade's `fake` method allows you to instruct the HTTP client to return stubbed / dummy responses when requests are made.
 
 ### Faking Responses
 

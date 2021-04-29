@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gokure\Http\Client;
 
 class RequestException extends HttpClientException

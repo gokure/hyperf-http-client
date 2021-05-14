@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Gokure\Http\Client;
 
 use Closure;
-use GuzzleHttp\Promise\Create;
 use Hyperf\Utils\Str;
 use Hyperf\Utils\Traits\Macroable;
 use GuzzleHttp\Psr7\Response as Psr7Response;
@@ -108,7 +107,11 @@ class Factory
             $headers['Content-Type'] = 'application/json';
         }
 
-        return Create::promiseFor(new Psr7Response($status, $headers, $body));
+        $response = new Psr7Response($status, $headers, $body);
+
+        return class_exists(\GuzzleHttp\Promise\Create::class)
+            ? \GuzzleHttp\Promise\Create::promiseFor($response)
+            : \GuzzleHttp\Promise\promise_for($response);
     }
 
     /**

@@ -28,6 +28,9 @@
         }
     },
     "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
         "hyperf": {
             "config": "Gokure\\Http\\Client\\ConfigProvider"
         }

@@ -56,6 +56,6 @@ class Http
 {
     public static function __callStatic($method, $args)
     {
-        return new Factory();
+        return (new Factory())->{$method}(...$args);
     }
 }

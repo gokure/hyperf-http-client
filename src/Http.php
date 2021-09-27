@@ -20,7 +20,7 @@ namespace Gokure\Http\Client;
  * @method static \Gokure\Http\Client\PendingRequest contentType(string $contentType)
  * @method static \Gokure\Http\Client\PendingRequest dd()
  * @method static \Gokure\Http\Client\PendingRequest dump()
- * @method static \Gokure\Http\Client\PendingRequest retry(int $times, int $sleep = 0)
+ * @method static \Gokure\Http\Client\PendingRequest retry(int $times, int $sleep = 0, ?callable $when = null)
  * @method static \Gokure\Http\Client\PendingRequest sink(string|resource $to)
  * @method static \Gokure\Http\Client\PendingRequest stub(callable $callback)
  * @method static \Gokure\Http\Client\PendingRequest timeout(int $seconds)
@@ -45,6 +45,7 @@ namespace Gokure\Http\Client;
  * @method static \Gokure\Http\Client\Response send(string $method, string $url, array $options = [])
  * @method static \Gokure\Http\Client\ResponseSequence fakeSequence(string $urlPattern = '*')
  * @method static void assertSent(callable $callback)
+ * @method static void assertSentInOrder(array $callbacks)
  * @method static void assertNotSent(callable $callback)
  * @method static void assertNothingSent()
  * @method static void assertSentCount(int $count)
@@ -56,6 +57,6 @@ class Http
 {
     public static function __callStatic($method, $args)
     {
-        return (new Factory())->{$method}(...$args);
+        return make(Factory::class, $method, $args);
     }
 }

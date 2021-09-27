@@ -1,6 +1,6 @@
 # A HTTP Client for Hyperf
 
-Implements HTTP client for Hyperf via [laravel/framework](https://github.com/laravel/framewrok).
+Implements HTTP client for Hyperf via [laravel/framework](https://github.com/laravel/framework).
 
 ## Introduction
 
@@ -30,12 +30,12 @@ use Gokure\Http\Client\Http;
 $response = Http::get('http://example.com');
 ```
 
-The `get` method returns an instance of `Illuminate\Http\Client\Response`, which provides a variety of methods that may be used to inspect the response:
+The `get` method returns an instance of `Gokure\Http\Client`, which provides a variety of methods that may be used to inspect the response:
 
 ```php
 $response->body() : string;
 $response->json() : array|mixed;
-$response->collect() : Illuminate\Support\Collection;
+$response->collect() : Hyperf\Utils\Collection;
 $response->status() : int;
 $response->ok() : bool;
 $response->successful() : bool;

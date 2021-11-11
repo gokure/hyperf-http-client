@@ -57,6 +57,6 @@ class Http
 {
     public static function __callStatic($method, $args)
     {
-        return make(Factory::class, $method, $args);
+        return make(Factory::class)->{$method}(...$args);
     }
 }

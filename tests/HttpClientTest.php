@@ -2,30 +2,31 @@
 
 namespace Gokure\HttpClientTests;
 
-use Gokure\Http\Client\Events\RequestSending;
-use Gokure\Http\Client\Events\ResponseReceived;
-use Gokure\Http\Client\PendingRequest;
+use Mockery as m;
+use Swoole\Runtime;
+use Hyperf\Utils\Str;
+use Hyperf\Di\Container;
+use OutOfBoundsException;
+use Gokure\Http\Client\Http;
 use Gokure\Http\Client\Pool;
-use Gokure\Http\Client\RequestException;
-use Gokure\Http\Client\ResponseSequence;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7\Response as Psr7Response;
+use Hyperf\Utils\Collection;
 use Gokure\Http\Client\Factory;
 use Gokure\Http\Client\Request;
+use PHPUnit\Framework\TestCase;
 use Gokure\Http\Client\Response;
-use Hyperf\Di\Container;
 use Hyperf\Event\EventDispatcher;
 use Hyperf\Event\ListenerProvider;
 use Hyperf\Utils\ApplicationContext;
-use Hyperf\Utils\Collection;
-use Hyperf\Utils\Str;
-use Mockery as m;
-use OutOfBoundsException;
-use PHPUnit\Framework\AssertionFailedError;
-use PHPUnit\Framework\TestCase;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Swoole\Runtime;
+use Gokure\Http\Client\PendingRequest;
+use Gokure\Http\Client\RequestException;
+use Gokure\Http\Client\ResponseSequence;
+use GuzzleHttp\Promise\PromiseInterface;
 use Symfony\Component\VarDumper\VarDumper;
+use PHPUnit\Framework\AssertionFailedError;
+use Gokure\Http\Client\Events\RequestSending;
+use GuzzleHttp\Psr7\Response as Psr7Response;
+use Gokure\Http\Client\Events\ResponseReceived;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class HttpClientTest extends TestCase
 {
@@ -57,10 +58,17 @@ class HttpClientTest extends TestCase
 
         $container = m::mock(Container::class);
         $container->shouldReceive('get')->with(EventDispatcherInterface::class)->andReturn(new EventDispatcher(new ListenerProvider()));
+        $container->shouldReceive('make')->with(Factory::class, m::any())->andReturn(new Factory());
 
         ApplicationContext::setContainer($container);
 
         return $container;
+    }
+
+    public function testFacades()
+    {
+        $response = Http::fake()->get('http://foo.com/api');
+        $this->assertTrue($response->ok());
     }
 
     public function testStubbedResponsesAreReturnedAfterFaking()
@@ -570,7 +578,11 @@ class HttpClientTest extends TestCase
     public function testRequestExceptionEmptyBody()
     {
         $this->expectException(RequestException::class);
-        $this->expectExceptionMessageMatches('/HTTP request returned status code 403$/');
+        if (method_exists($this, 'expectExceptionMessageRegExp')) {
+            $this->expectExceptionMessageRegExp('/HTTP request returned status code 403$/');
+        } elseif (method_exists($this, 'expectExceptionMessageMatches')) {
+            $this->expectExceptionMessageMatches('/HTTP request returned status code 403$/');
+        }
 
         $response = new Psr7Response(403);
 
